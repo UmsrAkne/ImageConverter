@@ -1,5 +1,6 @@
 using System.Windows;
 using ImageConverter.ViewModels;
+using ImTools;
 using Microsoft.Xaml.Behaviors;
 
 namespace ImageConverter.Models
@@ -41,7 +42,7 @@ namespace ImageConverter.Models
             {
                 var d = ((Window)sender).DataContext as MainWindowViewModel;
                 var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                // files.ForEach(f => d?.AddFile(f));
+                files.ForEach(f => d?.AddFile(f));
             }
 
             e.Handled = true;

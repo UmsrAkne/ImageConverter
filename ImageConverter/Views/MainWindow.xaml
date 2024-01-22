@@ -3,7 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:ImageConverter.Models"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewModels="clr-namespace:ImageConverter.ViewModels"
     Title="{Binding Title}"
@@ -11,14 +13,20 @@
     Height="350"
     d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
+    AllowDrop="True"
     mc:Ignorable="d">
+
+    <i:Interaction.Behaviors>
+        <models:DragAndDropBehavior />
+    </i:Interaction.Behaviors>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListBox Grid.Row="0" />
+        <ListBox Grid.Row="0" ItemsSource="{Binding ExFileInfos}" />
         <StackPanel Grid.Row="1" Margin="3">
             <Button
                 Width="50"
