@@ -12,5 +12,19 @@
     d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <Grid />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ListBox Grid.Row="0" />
+        <StackPanel Grid.Row="1" Margin="3">
+            <Button
+                Width="50"
+                Padding="5,0"
+                HorizontalAlignment="Right"
+                Content="変換" />
+        </StackPanel>
+    </Grid>
 </Window>
