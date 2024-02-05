@@ -74,6 +74,7 @@
                 Width="50"
                 Padding="5,0"
                 HorizontalAlignment="Right"
+                Command="{Binding StartConvertCommand}"
                 Content="変換" />
         </StackPanel>
     </Grid>
