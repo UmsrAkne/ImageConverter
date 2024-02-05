@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:ImageConverter.Models"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
     xmlns:viewModels="clr-namespace:ImageConverter.ViewModels"
     Title="{Binding Title}"
     Width="525"
@@ -15,6 +16,17 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     AllowDrop="True"
     mc:Ignorable="d">
+
+    <Window.Resources>
+        <ObjectDataProvider
+            x:Key="enumValues"
+            MethodName="GetValues"
+            ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="models:ProcessType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
 
     <i:Interaction.Behaviors>
         <models:DragAndDropBehavior />
@@ -45,7 +57,19 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel Grid.Row="1" Margin="3">
+        <StackPanel
+            Grid.Row="1"
+            Margin="3"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+
+            <ComboBox
+                Width="150"
+                ItemsSource="{Binding Source={StaticResource enumValues}}"
+                SelectedItem="{Binding ProcessType}" />
+
+            <Border Width="0" Margin="5,0" />
+
             <Button
                 Width="50"
                 Padding="5,0"

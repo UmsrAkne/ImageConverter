@@ -11,10 +11,13 @@ namespace ImageConverter.ViewModels
     {
         private string title = "Image Converter";
         private ObservableCollection<ExFileInfo> exFileInfos = new ();
+        private ProcessType processType = ProcessType.WebpToPng;
 
         public string Title { get => title; set => SetProperty(ref title, value); }
 
         public DateTime DateTime { get; set; } = DateTime.Now;
+
+        public ProcessType ProcessType { get => processType; set => SetProperty(ref processType, value); }
 
         public ObservableCollection<ExFileInfo> ExFileInfos
         {
