@@ -26,7 +26,25 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <ListBox Grid.Row="0" ItemsSource="{Binding ExFileInfos}" />
+        <ListBox
+            Grid.Row="0"
+            HorizontalContentAlignment="Stretch"
+            ItemsSource="{Binding ExFileInfos}">
+
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type models:ExFileInfo}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Name}" />
+                        <TextBlock Grid.Column="1" Text="{Binding FullName}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
         <StackPanel Grid.Row="1" Margin="3">
             <Button
                 Width="50"
