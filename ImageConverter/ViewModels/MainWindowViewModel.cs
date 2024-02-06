@@ -53,6 +53,11 @@ namespace ImageConverter.ViewModels
             }
         });
 
+        public DelegateCommand ClearFileListCommand => new (() =>
+        {
+            ExFileInfos = new ObservableCollection<ExFileInfo>();
+        });
+
         public void AddFile(string path)
         {
             ExFileInfos.Add(new ExFileInfo(new FileInfo(path)));

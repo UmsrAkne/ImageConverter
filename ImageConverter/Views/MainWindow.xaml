@@ -76,6 +76,15 @@
                 HorizontalAlignment="Right"
                 Command="{Binding StartConvertCommand}"
                 Content="変換" />
+
+            <Border Width="0" Margin="5,0" />
+
+            <Button
+                Width="90"
+                Padding="5,0"
+                Command="{Binding ClearFileListCommand}"
+                Content="リストのクリア" />
+
         </StackPanel>
     </Grid>
 </Window>
