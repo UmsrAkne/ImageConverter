@@ -48,10 +48,12 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="80" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="{Binding Name}" />
-                        <TextBlock Grid.Column="1" Text="{Binding FullName}" />
+                        <TextBlock Grid.Column="1" Text="{Binding Status}" />
+                        <TextBlock Grid.Column="2" Text="{Binding FullName}" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

@@ -36,7 +36,7 @@ namespace ImageConverter.ViewModels
                 foreach (var webp in webpFiles)
                 {
                     var outputFilePath = $"{webp.FullName.Remove(webp.FullName.Length - 5)}.png";
-                    ConvertImage(webp.FullName, outputFilePath);
+                    webp.Status = ConvertImage(webp.FullName, outputFilePath);
                 }
             }
 
@@ -48,7 +48,7 @@ namespace ImageConverter.ViewModels
                 foreach (var bmp in bmpFiles)
                 {
                     var outputFilePath = $"{bmp.FullName.Remove(bmp.FullName.Length - 4)}.png";
-                    ConvertImage(bmp.FullName, outputFilePath);
+                    bmp.Status = ConvertImage(bmp.FullName, outputFilePath);
                 }
             }
         });
@@ -63,7 +63,7 @@ namespace ImageConverter.ViewModels
             ExFileInfos.Add(new ExFileInfo(new FileInfo(path)));
         }
 
-        private static void ConvertImage(string inputPath, string outputPath)
+        private static string ConvertImage(string inputPath, string outputPath)
         {
             try
             {
@@ -87,15 +87,19 @@ namespace ImageConverter.ViewModels
                 // プロセスが終了するまで待機
                 process.WaitForExit();
 
-                if (process.ExitCode != 0)
+                if (process.ExitCode == 0)
                 {
-                    // エラーコードが0以外の場合、変換に失敗した可能性があります
-                    Console.WriteLine($"Conversion failed. Error: {errorOutput}");
+                    return "変換成功";
                 }
+
+                // エラーコードが0以外の場合、変換に失敗した可能性があります
+                Console.WriteLine($"Conversion failed. Error: {errorOutput}");
+                return "変換失敗";
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
+                return "変換失敗";
             }
         }
     }
