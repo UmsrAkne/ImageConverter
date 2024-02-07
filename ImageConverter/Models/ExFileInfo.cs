@@ -6,6 +6,8 @@ namespace ImageConverter.Models
 {
     public class ExFileInfo : BindableBase
     {
+        private string status = "未変換";
+
         public ExFileInfo(FileInfo file)
         {
             FileSystemInfo = file;
@@ -18,6 +20,8 @@ namespace ImageConverter.Models
         public FileInfo FileSystemInfo { get; set; }
 
         public DateTime LoadedDateTime { get; set; }
+
+        public string Status { get => status; set => SetProperty(ref status, value); }
 
         public string FileType { get; private set; }
 
