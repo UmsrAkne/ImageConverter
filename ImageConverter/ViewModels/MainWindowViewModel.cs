@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -38,45 +39,38 @@ namespace ImageConverter.ViewModels
             {
                 var webpFiles = ExFileInfos
                     .Where(f => f.FileType == ".webp")
-                    .Where(f => !f.Deleted);
+                    .Where(f => !f.Deleted).ToList();
 
-                foreach (var webp in webpFiles)
-                {
-                    var outputFilePath = $"{webp.FullName.Remove(webp.FullName.Length - 5)}.png";
-                    try
-                    {
-                        webp.Status = ConvertImage(webp.FullName, outputFilePath);
-                        if (DeleteOriginalFile)
-                        {
-                            webp.DeleteFile();
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        throw;
-                    }
-                }
+                Convert(webpFiles);
             }
 
             if (ProcessType == ProcessType.BmpToPng)
             {
                 var bmpFiles = ExFileInfos
                     .Where(f => string.Equals(f.FileType, ".bmp", StringComparison.OrdinalIgnoreCase))
-                    .Where(f => !f.Deleted);
+                    .Where(f => !f.Deleted).ToList();
 
-                foreach (var bmp in bmpFiles)
+                Convert(bmpFiles);
+            }
+
+            return;
+
+            void Convert(IEnumerable<ExFileInfo> files)
+            {
+                foreach (var file in files)
                 {
-                    var outputFilePath = $"{bmp.FullName.Remove(bmp.FullName.Length - 4)}.png";
+                    var output =
+                        $@"{Path.GetDirectoryName(file.FullName)}\{Path.GetFileNameWithoutExtension(file.FullName)}.png";
+
                     try
                     {
-                        bmp.Status = ConvertImage(bmp.FullName, outputFilePath);
+                        file.Status = ConvertImage(file.FullName, output);
                         if (DeleteOriginalFile)
                         {
-                            bmp.DeleteFile();
+                            file.DeleteFile();
                         }
                     }
-                    catch (ImageConversionException e)
+                    catch (Exception e)
                     {
                         Console.WriteLine(e);
                         throw;
