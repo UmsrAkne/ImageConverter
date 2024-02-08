@@ -59,34 +59,46 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel
-            Grid.Row="1"
-            Margin="3"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal">
-
-            <ComboBox
-                Width="150"
-                ItemsSource="{Binding Source={StaticResource enumValues}}"
-                SelectedItem="{Binding ProcessType}" />
-
-            <Border Width="0" Margin="5,0" />
-
-            <Button
-                Width="50"
-                Padding="5,0"
+        <StackPanel Grid.Row="1">
+            <StackPanel
+                Margin="3"
                 HorizontalAlignment="Right"
-                Command="{Binding StartConvertCommand}"
-                Content="変換" />
+                Orientation="Horizontal">
 
-            <Border Width="0" Margin="5,0" />
+                <TextBlock Text="変換後に元ファイルを削除する" />
 
-            <Button
-                Width="90"
-                Padding="5,0"
-                Command="{Binding ClearFileListCommand}"
-                Content="リストのクリア" />
+                <CheckBox Margin="4,0" VerticalAlignment="Center" />
 
+                <Border Width="0" Margin="10,0" />
+
+                <Button
+                    Width="90"
+                    Padding="5,0"
+                    Command="{Binding ClearFileListCommand}"
+                    Content="リストのクリア" />
+
+            </StackPanel>
+
+            <StackPanel
+                Margin="3"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+
+                <ComboBox
+                    Width="150"
+                    ItemsSource="{Binding Source={StaticResource enumValues}}"
+                    SelectedItem="{Binding ProcessType}" />
+
+                <Border Width="0" Margin="5,0" />
+
+                <Button
+                    Width="50"
+                    Padding="5,0"
+                    HorizontalAlignment="Right"
+                    Command="{Binding StartConvertCommand}"
+                    Content="変換" />
+
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>
