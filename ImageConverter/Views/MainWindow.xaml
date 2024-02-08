@@ -67,7 +67,10 @@
 
                 <TextBlock Text="変換後に元ファイルを削除する" />
 
-                <CheckBox Margin="4,0" VerticalAlignment="Center" />
+                <CheckBox
+                    Margin="4,0"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding DeleteOriginalFile}" />
 
                 <Border Width="0" Margin="10,0" />
 

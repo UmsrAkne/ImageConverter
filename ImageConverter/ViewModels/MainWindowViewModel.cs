@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using ImageConverter.Exceptions;
 using ImageConverter.Models;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -15,12 +16,15 @@ namespace ImageConverter.ViewModels
         private string title = "Image Converter";
         private ObservableCollection<ExFileInfo> exFileInfos = new ();
         private ProcessType processType = ProcessType.WebpToPng;
+        private bool deleteOriginalFile;
 
         public string Title { get => title; set => SetProperty(ref title, value); }
 
         public DateTime DateTime { get; set; } = DateTime.Now;
 
         public ProcessType ProcessType { get => processType; set => SetProperty(ref processType, value); }
+
+        public bool DeleteOriginalFile { get => deleteOriginalFile; set => SetProperty(ref deleteOriginalFile, value); }
 
         public ObservableCollection<ExFileInfo> ExFileInfos
         {
@@ -36,7 +40,19 @@ namespace ImageConverter.ViewModels
                 foreach (var webp in webpFiles)
                 {
                     var outputFilePath = $"{webp.FullName.Remove(webp.FullName.Length - 5)}.png";
-                    webp.Status = ConvertImage(webp.FullName, outputFilePath);
+                    try
+                    {
+                        webp.Status = ConvertImage(webp.FullName, outputFilePath);
+                        if (DeleteOriginalFile)
+                        {
+                            File.Delete(webp.FullName);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
             }
 
@@ -48,7 +64,19 @@ namespace ImageConverter.ViewModels
                 foreach (var bmp in bmpFiles)
                 {
                     var outputFilePath = $"{bmp.FullName.Remove(bmp.FullName.Length - 4)}.png";
-                    bmp.Status = ConvertImage(bmp.FullName, outputFilePath);
+                    try
+                    {
+                        bmp.Status = ConvertImage(bmp.FullName, outputFilePath);
+                        if (DeleteOriginalFile)
+                        {
+                            File.Delete(bmp.FullName);
+                        }
+                    }
+                    catch (ImageConversionException e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
                 }
             }
         });
@@ -94,7 +122,10 @@ namespace ImageConverter.ViewModels
 
                 // エラーコードが0以外の場合、変換に失敗した可能性があります
                 Console.WriteLine($"Conversion failed. Error: {errorOutput}");
-                return "変換失敗";
+                throw new ImageConversionException("画像ファイルの変換に失敗しました")
+                {
+                    FailedFileName = inputPath,
+                };
             }
             catch (Exception ex)
             {
