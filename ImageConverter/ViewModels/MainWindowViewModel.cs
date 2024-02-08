@@ -36,7 +36,10 @@ namespace ImageConverter.ViewModels
         {
             if (ProcessType == ProcessType.WebpToPng)
             {
-                var webpFiles = ExFileInfos.Where(f => f.FileType == ".webp");
+                var webpFiles = ExFileInfos
+                    .Where(f => f.FileType == ".webp")
+                    .Where(f => !f.Deleted);
+
                 foreach (var webp in webpFiles)
                 {
                     var outputFilePath = $"{webp.FullName.Remove(webp.FullName.Length - 5)}.png";
@@ -58,8 +61,9 @@ namespace ImageConverter.ViewModels
 
             if (ProcessType == ProcessType.BmpToPng)
             {
-                var bmpFiles = ExFileInfos.Where(f =>
-                    string.Equals(f.FileType, ".bmp", StringComparison.OrdinalIgnoreCase));
+                var bmpFiles = ExFileInfos
+                    .Where(f => string.Equals(f.FileType, ".bmp", StringComparison.OrdinalIgnoreCase))
+                    .Where(f => !f.Deleted);
 
                 foreach (var bmp in bmpFiles)
                 {
