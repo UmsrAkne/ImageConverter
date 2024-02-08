@@ -45,7 +45,7 @@ namespace ImageConverter.ViewModels
                         webp.Status = ConvertImage(webp.FullName, outputFilePath);
                         if (DeleteOriginalFile)
                         {
-                            File.Delete(webp.FullName);
+                            webp.DeleteFile();
                         }
                     }
                     catch (Exception e)
@@ -69,7 +69,7 @@ namespace ImageConverter.ViewModels
                         bmp.Status = ConvertImage(bmp.FullName, outputFilePath);
                         if (DeleteOriginalFile)
                         {
-                            File.Delete(bmp.FullName);
+                            bmp.DeleteFile();
                         }
                     }
                     catch (ImageConversionException e)
