@@ -35,6 +35,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
+            <RowDefinition Height="100" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -59,7 +60,11 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel Grid.Row="1">
+        <ScrollViewer Grid.Row="1">
+            <TextBlock Text="{Binding Log}" />
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2">
             <StackPanel
                 Margin="3"
                 HorizontalAlignment="Right"

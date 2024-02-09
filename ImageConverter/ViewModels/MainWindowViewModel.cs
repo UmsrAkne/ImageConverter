@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using ImageConverter.Exceptions;
 using ImageConverter.Models;
 using Prism.Commands;
@@ -18,6 +19,7 @@ namespace ImageConverter.ViewModels
         private ObservableCollection<ExFileInfo> exFileInfos = new ();
         private ProcessType processType = ProcessType.WebpToPng;
         private bool deleteOriginalFile;
+        private string log;
 
         public string Title { get => title; set => SetProperty(ref title, value); }
 
@@ -27,6 +29,8 @@ namespace ImageConverter.ViewModels
 
         public bool DeleteOriginalFile { get => deleteOriginalFile; set => SetProperty(ref deleteOriginalFile, value); }
 
+        public string Log { get => log; private set => SetProperty(ref log, value); }
+
         public ObservableCollection<ExFileInfo> ExFileInfos
         {
             get => exFileInfos;
@@ -35,13 +39,15 @@ namespace ImageConverter.ViewModels
 
         public DelegateCommand StartConvertCommand => new (() =>
         {
+            var sb = new StringBuilder();
+
             if (ProcessType == ProcessType.WebpToPng)
             {
                 var webpFiles = ExFileInfos
                     .Where(f => f.FileType == ".webp")
                     .Where(f => !f.Deleted).ToList();
 
-                Convert(webpFiles);
+                Convert(webpFiles, sb);
             }
 
             if (ProcessType == ProcessType.BmpToPng)
@@ -50,14 +56,22 @@ namespace ImageConverter.ViewModels
                     .Where(f => string.Equals(f.FileType, ".bmp", StringComparison.OrdinalIgnoreCase))
                     .Where(f => !f.Deleted).ToList();
 
-                Convert(bmpFiles);
+                Convert(bmpFiles, sb);
             }
 
+            Log += sb.ToString();
             return;
 
-            void Convert(IEnumerable<ExFileInfo> files)
+            void Convert(IEnumerable<ExFileInfo> files, StringBuilder strBuilder)
             {
-                foreach (var file in files)
+                var imageFiles = files.ToList();
+
+                if (imageFiles.Count > 0)
+                {
+                    strBuilder.AppendLine($"{imageFiles.Count} ファイルの変換を開始します");
+                }
+
+                foreach (var file in imageFiles)
                 {
                     var output =
                         $@"{Path.GetDirectoryName(file.FullName)}\{Path.GetFileNameWithoutExtension(file.FullName)}.png";
@@ -65,14 +79,18 @@ namespace ImageConverter.ViewModels
                     try
                     {
                         file.Status = ConvertImage(file.FullName, output);
+                        strBuilder.AppendLine($"ファイルの変換に成功しました {file.FullName} -> {output}");
+
                         if (DeleteOriginalFile)
                         {
                             file.DeleteFile();
+                            strBuilder.AppendLine($"変換に成功したファイルを削除しました {file.FullName}");
                         }
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
+                        strBuilder.AppendLine($"ファイルの変換処理に失敗しました {file.FullName}");
                         throw;
                     }
                 }
