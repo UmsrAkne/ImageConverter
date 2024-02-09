@@ -34,7 +34,7 @@ namespace ImageConverter.ViewModels
         public ObservableCollection<ExFileInfo> ExFileInfos
         {
             get => exFileInfos;
-            set => SetProperty(ref exFileInfos, value);
+            private set => SetProperty(ref exFileInfos, value);
         }
 
         public DelegateCommand StartConvertCommand => new (() =>

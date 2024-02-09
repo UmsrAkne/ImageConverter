@@ -4,10 +4,6 @@ namespace ImageConverter.Exceptions
 {
     public class ImageConversionException : Exception
     {
-        public ImageConversionException()
-        {
-        }
-
         public ImageConversionException(string message)
             : base(message)
         {
