@@ -71,15 +71,20 @@ namespace ImageConverter.ViewModels
                     strBuilder.AppendLine($"{imageFiles.Count} ファイルの変換を開始します");
                 }
 
+                var counter = 0;
+
                 foreach (var file in imageFiles)
                 {
                     var output =
                         $@"{Path.GetDirectoryName(file.FullName)}\{Path.GetFileNameWithoutExtension(file.FullName)}.png";
 
+                    counter++;
+                    var countStr = $"{counter:D4}/{imageFiles.Count:D4}";
+
                     try
                     {
                         file.Status = ConvertImage(file.FullName, output);
-                        strBuilder.AppendLine($"ファイルの変換に成功しました {file.FullName} -> {output}");
+                        strBuilder.AppendLine($"ファイルの変換に成功しました {countStr} {file.FullName} -> {output}");
 
                         if (DeleteOriginalFile)
                         {

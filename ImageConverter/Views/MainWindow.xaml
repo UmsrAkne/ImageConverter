@@ -61,7 +61,7 @@
         </ListBox>
 
         <ScrollViewer Grid.Row="1">
-            <TextBlock Text="{Binding Log}" />
+            <TextBlock Padding="2" Text="{Binding Log}" />
         </ScrollViewer>
 
         <StackPanel Grid.Row="2">
