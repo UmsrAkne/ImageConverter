@@ -80,6 +80,13 @@
                 <Border Width="0" Margin="10,0" />
 
                 <Button
+                    Padding="10,0"
+                    Command="{Binding ClearConvertedCommand}"
+                    Content="変換済みをクリア" />
+
+                <Border Width="0" Margin="10,0" />
+
+                <Button
                     Width="90"
                     Padding="5,0"
                     Command="{Binding ClearFileListCommand}"
