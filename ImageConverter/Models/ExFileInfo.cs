@@ -7,6 +7,7 @@ namespace ImageConverter.Models
     public class ExFileInfo : BindableBase
     {
         private string status = "未変換";
+        private bool converted;
 
         public ExFileInfo(FileInfo file)
         {
@@ -30,6 +31,8 @@ namespace ImageConverter.Models
         public string Name { get; private set; }
 
         public bool Deleted { get; private set; }
+
+        public bool Converted { get => converted; set => SetProperty(ref converted, value); }
 
         /// <summary>
         ///     FileSystemInfo クラスが参照しているファイルを削除します。

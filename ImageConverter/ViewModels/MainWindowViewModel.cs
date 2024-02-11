@@ -84,6 +84,7 @@ namespace ImageConverter.ViewModels
                     try
                     {
                         file.Status = ConvertImage(file.FullName, output);
+                        file.Converted = true;
                         strBuilder.AppendLine($"ファイルの変換に成功しました {countStr} {file.FullName} -> {output}");
 
                         if (DeleteOriginalFile)
@@ -105,6 +106,11 @@ namespace ImageConverter.ViewModels
         public DelegateCommand ClearFileListCommand => new (() =>
         {
             ExFileInfos = new ObservableCollection<ExFileInfo>();
+        });
+
+        public DelegateCommand ClearConvertedCommand => new (() =>
+        {
+            ExFileInfos = new ObservableCollection<ExFileInfo>(ExFileInfos.Where(f => !f.Converted));
         });
 
         public void AddFile(string path)
