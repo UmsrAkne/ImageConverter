@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using ImageConverter.Exceptions;
 using ImageConverter.Models;
 using Prism.Commands;
@@ -20,6 +21,7 @@ namespace ImageConverter.ViewModels
         private ProcessType processType = ProcessType.WebpToPng;
         private bool deleteOriginalFile;
         private string log;
+        private bool uiEnabled = true;
 
         public string Title { get => title; set => SetProperty(ref title, value); }
 
@@ -31,6 +33,8 @@ namespace ImageConverter.ViewModels
 
         public string Log { get => log; private set => SetProperty(ref log, value); }
 
+        public bool UiEnabled { get => uiEnabled; set => SetProperty(ref uiEnabled, value); }
+
         public ObservableCollection<ExFileInfo> ExFileInfos
         {
             get => exFileInfos;
@@ -39,6 +43,28 @@ namespace ImageConverter.ViewModels
 
         public DelegateCommand StartConvertCommand => new (() =>
         {
+            _ = ConvertImageAsync();
+        });
+
+        public DelegateCommand ClearFileListCommand => new (() =>
+        {
+            ExFileInfos = new ObservableCollection<ExFileInfo>();
+        });
+
+        public DelegateCommand ClearConvertedCommand => new (() =>
+        {
+            ExFileInfos = new ObservableCollection<ExFileInfo>(ExFileInfos.Where(f => !f.Converted));
+        });
+
+        public void AddFile(string path)
+        {
+            ExFileInfos.Add(new ExFileInfo(new FileInfo(path)));
+        }
+
+        private async Task ConvertImageAsync()
+        {
+            UiEnabled = false;
+
             var sb = new StringBuilder();
 
             if (ProcessType == ProcessType.WebpToPng)
@@ -47,7 +73,7 @@ namespace ImageConverter.ViewModels
                     .Where(f => f.FileType == ".webp")
                     .Where(f => !f.Deleted).ToList();
 
-                Convert(webpFiles, sb);
+                await Task.Run(() => Convert(webpFiles, sb));
             }
 
             if (ProcessType == ProcessType.BmpToPng)
@@ -56,10 +82,12 @@ namespace ImageConverter.ViewModels
                     .Where(f => string.Equals(f.FileType, ".bmp", StringComparison.OrdinalIgnoreCase))
                     .Where(f => !f.Deleted).ToList();
 
-                Convert(bmpFiles, sb);
+                await Task.Run(() => Convert(bmpFiles, sb));
             }
 
             Log += sb.ToString();
+            UiEnabled = true;
+
             return;
 
             void Convert(IEnumerable<ExFileInfo> files, StringBuilder strBuilder)
@@ -101,21 +129,6 @@ namespace ImageConverter.ViewModels
                     }
                 }
             }
-        });
-
-        public DelegateCommand ClearFileListCommand => new (() =>
-        {
-            ExFileInfos = new ObservableCollection<ExFileInfo>();
-        });
-
-        public DelegateCommand ClearConvertedCommand => new (() =>
-        {
-            ExFileInfos = new ObservableCollection<ExFileInfo>(ExFileInfos.Where(f => !f.Converted));
-        });
-
-        public void AddFile(string path)
-        {
-            ExFileInfos.Add(new ExFileInfo(new FileInfo(path)));
         }
 
         private static string ConvertImage(string inputPath, string outputPath)
