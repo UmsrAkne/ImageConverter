@@ -43,34 +43,6 @@ namespace ImageConverter.ViewModels
 
         public AsyncDelegateCommand StartConvertAsyncCommand => new (async () =>
         {
-            try
-            {
-                await ConvertImageAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        });
-
-        public DelegateCommand ClearFileListCommand => new (() =>
-        {
-            ExFileInfos = new ObservableCollection<ExFileInfo>();
-        });
-
-        public DelegateCommand ClearConvertedCommand => new (() =>
-        {
-            ExFileInfos = new ObservableCollection<ExFileInfo>(ExFileInfos.Where(f => !f.Converted));
-        });
-
-        public void AddFile(string path)
-        {
-            ExFileInfos.Add(new ExFileInfo(new FileInfo(path)));
-        }
-
-        private async Task ConvertImageAsync()
-        {
             UiEnabled = false;
 
             var sb = new StringBuilder();
@@ -153,6 +125,21 @@ namespace ImageConverter.ViewModels
                     }
                 }
             }
+        });
+
+        public DelegateCommand ClearFileListCommand => new (() =>
+        {
+            ExFileInfos = new ObservableCollection<ExFileInfo>();
+        });
+
+        public DelegateCommand ClearConvertedCommand => new (() =>
+        {
+            ExFileInfos = new ObservableCollection<ExFileInfo>(ExFileInfos.Where(f => !f.Converted));
+        });
+
+        public void AddFile(string path)
+        {
+            ExFileInfos.Add(new ExFileInfo(new FileInfo(path)));
         }
 
         private static string ConvertImage(string inputPath, string outputPath)
