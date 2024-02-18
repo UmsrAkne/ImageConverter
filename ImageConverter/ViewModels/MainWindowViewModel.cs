@@ -43,7 +43,15 @@ namespace ImageConverter.ViewModels
 
         public AsyncDelegateCommand StartConvertAsyncCommand => new (async () =>
         {
-            await ConvertImageAsync();
+            try
+            {
+                await ConvertImageAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         });
 
         public DelegateCommand ClearFileListCommand => new (() =>
@@ -73,7 +81,15 @@ namespace ImageConverter.ViewModels
                     .Where(f => f.FileType == ".webp")
                     .Where(f => !f.Deleted).ToList();
 
-                await Task.Run(() => Convert(webpFiles, sb));
+                try
+                {
+                    await Task.Run(() => Convert(webpFiles, sb));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
 
             if (ProcessType == ProcessType.BmpToPng)
@@ -82,7 +98,15 @@ namespace ImageConverter.ViewModels
                     .Where(f => string.Equals(f.FileType, ".bmp", StringComparison.OrdinalIgnoreCase))
                     .Where(f => !f.Deleted).ToList();
 
-                await Task.Run(() => Convert(bmpFiles, sb));
+                try
+                {
+                    await Task.Run(() => Convert(bmpFiles, sb));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
 
             Log += sb.ToString();
