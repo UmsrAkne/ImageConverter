@@ -110,7 +110,7 @@
                     Width="50"
                     Padding="5,0"
                     HorizontalAlignment="Right"
-                    Command="{Binding StartConvertCommand}"
+                    Command="{Binding StartConvertAsyncCommand}"
                     Content="変換" />
 
             </StackPanel>
