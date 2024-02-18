@@ -41,9 +41,9 @@ namespace ImageConverter.ViewModels
             private set => SetProperty(ref exFileInfos, value);
         }
 
-        public DelegateCommand StartConvertCommand => new (() =>
+        public AsyncDelegateCommand StartConvertAsyncCommand => new (async () =>
         {
-            _ = ConvertImageAsync();
+            await ConvertImageAsync();
         });
 
         public DelegateCommand ClearFileListCommand => new (() =>
