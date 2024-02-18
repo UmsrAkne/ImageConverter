@@ -43,26 +43,6 @@ namespace ImageConverter.ViewModels
 
         public AsyncDelegateCommand StartConvertAsyncCommand => new (async () =>
         {
-            await ConvertImageAsync();
-        });
-
-        public DelegateCommand ClearFileListCommand => new (() =>
-        {
-            ExFileInfos = new ObservableCollection<ExFileInfo>();
-        });
-
-        public DelegateCommand ClearConvertedCommand => new (() =>
-        {
-            ExFileInfos = new ObservableCollection<ExFileInfo>(ExFileInfos.Where(f => !f.Converted));
-        });
-
-        public void AddFile(string path)
-        {
-            ExFileInfos.Add(new ExFileInfo(new FileInfo(path)));
-        }
-
-        private async Task ConvertImageAsync()
-        {
             UiEnabled = false;
 
             var sb = new StringBuilder();
@@ -73,7 +53,15 @@ namespace ImageConverter.ViewModels
                     .Where(f => f.FileType == ".webp")
                     .Where(f => !f.Deleted).ToList();
 
-                await Task.Run(() => Convert(webpFiles, sb));
+                try
+                {
+                    await Task.Run(() => Convert(webpFiles, sb));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
 
             if (ProcessType == ProcessType.BmpToPng)
@@ -82,7 +70,15 @@ namespace ImageConverter.ViewModels
                     .Where(f => string.Equals(f.FileType, ".bmp", StringComparison.OrdinalIgnoreCase))
                     .Where(f => !f.Deleted).ToList();
 
-                await Task.Run(() => Convert(bmpFiles, sb));
+                try
+                {
+                    await Task.Run(() => Convert(bmpFiles, sb));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
             }
 
             Log += sb.ToString();
@@ -129,6 +125,21 @@ namespace ImageConverter.ViewModels
                     }
                 }
             }
+        });
+
+        public DelegateCommand ClearFileListCommand => new (() =>
+        {
+            ExFileInfos = new ObservableCollection<ExFileInfo>();
+        });
+
+        public DelegateCommand ClearConvertedCommand => new (() =>
+        {
+            ExFileInfos = new ObservableCollection<ExFileInfo>(ExFileInfos.Where(f => !f.Converted));
+        });
+
+        public void AddFile(string path)
+        {
+            ExFileInfos.Add(new ExFileInfo(new FileInfo(path)));
         }
 
         private static string ConvertImage(string inputPath, string outputPath)
