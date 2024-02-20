@@ -25,8 +25,6 @@ namespace ImageConverter.ViewModels
 
         public string Title { get => title; set => SetProperty(ref title, value); }
 
-        public DateTime DateTime { get; set; } = DateTime.Now;
-
         public ProcessType ProcessType { get => processType; set => SetProperty(ref processType, value); }
 
         public bool DeleteOriginalFile { get => deleteOriginalFile; set => SetProperty(ref deleteOriginalFile, value); }
