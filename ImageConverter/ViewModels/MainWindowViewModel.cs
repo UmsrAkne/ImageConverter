@@ -16,14 +16,11 @@ namespace ImageConverter.ViewModels
     // ReSharper disable once ClassNeverInstantiated.Global
     public class MainWindowViewModel : BindableBase
     {
-        private string title = "Image Converter";
         private ObservableCollection<ExFileInfo> exFileInfos = new ();
         private ProcessType processType = ProcessType.WebpToPng;
         private bool deleteOriginalFile;
         private string log;
         private bool uiEnabled = true;
-
-        public string Title { get => title; set => SetProperty(ref title, value); }
 
         public ProcessType ProcessType { get => processType; set => SetProperty(ref processType, value); }
 
@@ -32,6 +29,8 @@ namespace ImageConverter.ViewModels
         public string Log { get => log; private set => SetProperty(ref log, value); }
 
         public bool UiEnabled { get => uiEnabled; set => SetProperty(ref uiEnabled, value); }
+
+        public TextWrapper TextWrapper { get; init; } = new ();
 
         public ObservableCollection<ExFileInfo> ExFileInfos
         {

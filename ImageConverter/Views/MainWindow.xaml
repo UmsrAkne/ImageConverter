@@ -9,7 +9,7 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:system="clr-namespace:System;assembly=System.Runtime"
     xmlns:viewModels="clr-namespace:ImageConverter.ViewModels"
-    Title="{Binding Title}"
+    Title="{Binding TextWrapper.Title}"
     Width="525"
     Height="350"
     d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
