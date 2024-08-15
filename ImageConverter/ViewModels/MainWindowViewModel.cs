@@ -14,7 +14,7 @@ using Prism.Mvvm;
 namespace ImageConverter.ViewModels
 {
     // ReSharper disable once ClassNeverInstantiated.Global
-    public class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : BindableBase, IMainWindowViewModel
     {
         private ObservableCollection<ExFileInfo> exFileInfos = new ();
         private ProcessType processType = ProcessType.WebpToPng;

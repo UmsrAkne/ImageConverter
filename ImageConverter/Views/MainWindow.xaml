@@ -12,7 +12,7 @@
     Title="{Binding TextWrapper.Title}"
     Width="525"
     Height="350"
-    d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
+    d:DataContext="{d:DesignInstance viewModels:DesignTimeMainWindowViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     AllowDrop="True"
     mc:Ignorable="d">
