@@ -29,7 +29,7 @@ namespace ImageConverter.Models
         [Conditional("RELEASE")]
         private void SetVersion()
         {
-            Version = "20240816" + "a";
+            Version = "20240816" + "b";
         }
 
         [Conditional("DEBUG")]
