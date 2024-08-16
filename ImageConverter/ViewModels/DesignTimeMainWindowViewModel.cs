@@ -24,6 +24,9 @@ namespace ImageConverter.ViewModels
             fileInfos[1].Status = "変換済み";
             fileInfos[2].Status = "変換済み";
 
+            // 過剰な長さのファイル名を一つ追加して表示しておく。
+            fileInfos[3] = new ExFileInfo(new FileInfo("image_image_image_image100000000000000.png"));
+
             ExFileInfos = new ObservableCollection<ExFileInfo>(fileInfos);
 
             Log = "ログのテキストをここに表示します。";
