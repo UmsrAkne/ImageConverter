@@ -42,6 +42,7 @@
         <ListBox
             Grid.Row="0"
             HorizontalContentAlignment="Stretch"
+            AlternationCount="2"
             ItemsSource="{Binding ExFileInfos}">
 
             <ListBox.ItemTemplate>
@@ -52,19 +53,48 @@
                             <ColumnDefinition Width="100" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Name}" />
-                        <TextBlock Grid.Column="1" Text="{Binding Status}" />
-                        <TextBlock Grid.Column="2" Text="{Binding FullName}" />
+                        <Border
+                            Grid.Column="0"
+                            BorderBrush="DimGray"
+                            BorderThickness="0,0,1,0">
+                            <TextBlock Text="{Binding Name}" />
+                        </Border>
+
+                        <Border
+                            Grid.Column="1"
+                            Padding="4,0"
+                            BorderBrush="DimGray"
+                            BorderThickness="0,0,1,0">
+                            <TextBlock Text="{Binding Status}" />
+                        </Border>
+
+                        <TextBlock
+                            Grid.Column="2"
+                            Padding="4,0"
+                            Text="{Binding FullName}" />
+
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Style.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter Property="Background" Value="#EAEAEA" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
         </ListBox>
 
         <ScrollViewer Grid.Row="1">
-            <TextBlock
-                Padding="2"
-                Background="WhiteSmoke"
-                Text="{Binding Log}" />
+            <Border BorderBrush="DarkGray" BorderThickness="1">
+                <TextBlock
+                    Padding="2"
+                    Background="WhiteSmoke"
+                    Text="{Binding Log}" />
+            </Border>
         </ScrollViewer>
 
         <StackPanel Grid.Row="2">
