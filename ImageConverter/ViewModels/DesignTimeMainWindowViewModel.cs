@@ -10,6 +10,8 @@ namespace ImageConverter.ViewModels
     // ReSharper disable once ClassNeverInstantiated.Global
     public class DesignTimeMainWindowViewModel : BindableBase, IMainWindowViewModel
     {
+        private bool uiEnabled;
+
         public DesignTimeMainWindowViewModel()
         {
             var fileInfos = new List<ExFileInfo>();
@@ -25,6 +27,7 @@ namespace ImageConverter.ViewModels
             ExFileInfos = new ObservableCollection<ExFileInfo>(fileInfos);
 
             Log = "ログのテキストをここに表示します。";
+            UiEnabled = true;
         }
 
         public ObservableCollection<ExFileInfo> ExFileInfos { get; }
@@ -35,7 +38,7 @@ namespace ImageConverter.ViewModels
 
         public string Log { get; }
 
-        public bool UiEnabled { get; set; } = true;
+        public bool UiEnabled { get => uiEnabled; set => SetProperty(ref uiEnabled, value); }
 
         public TextWrapper TextWrapper { get; init; }
 
